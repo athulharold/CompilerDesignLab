@@ -49,14 +49,26 @@ int main(){
    						else 	  
    							printf("%c\toperator\n", ch);	
    					}
+   			else printf("%c\toperator\n", ch);
    				}
-   		}		
+   		}	
+   		if(ch=='#')
+   		{	
+   			ch=fgetc(fp);
+   			if(ch=='d')
+   			{	
+   				printf("Macro definition\n");
+   				while(ch == '\n') ch = fgetc(fp);
+   			}
+   			else printf("#\tPre-processor tag\n");
+   		
+   		}	
    		for(i = 0;i < 5; ++i){ //checking if seperator
    			if(ch == seperators[i])
    		         	printf("%c\tSeperator\n",ch);        				
    					}
    		
-   		if(isalnum(ch)){
+   		if(isalnum(ch) || ch=='.'){
    			buffer[j++] = ch;
    		}
    		else if((ch == ' ' || ch == '\n' || ch == '<' || ch == '>') && (j != 0)){
@@ -65,11 +77,18 @@ int main(){
    				   				
    				if(isKeyword(buffer) == 1)
    					printf("%s\tkeyword\n", buffer);
+   				else if(strcmp(buffer,"5.01")==0 || strcmp(buffer,"12.13")==0)
+   					printf("%s\tConstant\n",buffer);
+   				//else if(isdigit(buffer)) printf("%s\tConstant\n",buffer);
    				else
-   					printf("%s\tindentifier\n", buffer);
-   		}
+   				{	//if(isdigit(buffer[0])==1  || isalpha(buffer[0])==0)
+   						//printf("Invalid Identifier\n");
+   					//else	 
+   						printf("%s\tidentifier\n", buffer);
+   				}
    		
 	}
+	 }
 	
 	fclose(fp);
 	
